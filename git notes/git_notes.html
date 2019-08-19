@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="D:\Users\Student\Desktop\softDev\notes\NOTES.css">
+	<title>Git Notes</title>
+</head>
+<body>
+<h3>USEFUL LINKS</h3>
+<ul>
+	<li>
+		<a href="https://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1/ " target="_blank">Getting started part 1</a>
+		<a href="https://readwrite.com/2013/10/02/github-for-beginners-part-2/ " target="_blank">Getting started part 2</a>
+	</li>
+	<li>
+		<a href="http://rogerdudler.github.io/git-guide/ " target="_blank">Summary of keys</a>
+	</li>	
+	<li>
+		<a href="https://git-scm.com/book/en/v2 " target="_blank">first 3 chapters</a>
+	</li>
+	<li>
+		<a href="https://learngitbranching.js.org/">Learning and visualising Git</a>
+	</li>
+	<li>
+		<a href="http://git-school.github.io/visualizing-git/  ">Visualising Git (really cool)</a>
+	</li>
+
+</ul>
+<p class="warning"> <strong>FIRST ALWAYS MAKE SURE YOU ARE IN THE RIGHT BRANCH BEFORE MAKING ANY CHANGES AND SAVING!!!!</strong></p>
+
+<h1>PARAMETERS</h1>
+<p>Windows version</p>
+<p> <a href="https://www.youtube.com/watch?v=SWYqp7iY_Tc&t=1505s" target="_blank">Youtube video</a></p>
+<img src="https://i.redd.it/nm1w0gnf2zh11.png">
+
+	<ul class="warning">
+		<li>
+			Git pull ==> make sure you are in the RIGHT BRANCH!
+
+		</li>
+		<li>
+				Always do a git status before pulling. Make sure there aren't any outstanding changes. 
+		</li>
+		<li>
+				Don't check code into the repo if you know it's not going to work. 
+		</li>
+	</ul>
+
+<ol>
+	<li><p> <strong>$ git config --global user.name "Walter Clayton"</strong> </p>
+	<p> <strong>$ git config --global user.email "walthedude@gmail.com"</strong> </p>
+	<div> <em>// configure your username and email</em> </div></li>
+	To see username and name.
+	<pre><code>git config --list</code></pre>
+	<p>Short for “configure,” this is most useful when you’re setting up Git for the first time.</p>
+	<pre><code>git config </code></pre>
+	Forgot a command? Type this into the command line to bring up the 21 most common git commands. You can also be more specific and type “git help init” or another term to figure out how to use and configure a specific git command.
+	<pre><code>git help</code></pre>
+	Check the status of your repository. See which files are inside it, which changes still need to be committed, and which branch of the repository you’re currently working on.
+	<pre><code>git status</code></pre>
+
+
+<h2>Creating the Git Repository</h2>
+	<li>
+		<p> <strong>$ git init project1</strong> </p>
+		<div> <em>// creates a directory and initialises the git system.</em> </div>
+	</li>
+	<li>
+		<p> <strong>$ cd project1</strong></p>
+		<div> <em>// change directory, situating yourself inside the project directory.</em> </div>
+	</li>
+	<li>
+		<p> <strong>create a file e.g. file.txt</strong></p>
+		<div> <em>// write code and save your file</em> </div>
+	</li>
+	<li>
+		<p> <strong>$ git add /<"file"/></strong></p>
+		<div> <em>// This does not add new files to your repository. Instead, it brings new files to Git’s attention. After you add files, they’re included in Git’s “snapshots” of the repository.</em> </div>
+	</li>	
+	<li>
+		<p> <strong>$ git commit -m "My first commit"</strong></p>
+		<div> <em>// (master) concluding with a permanent record, recording the state of the file at a given point in time, -m provides a message at the end of the command line. Git’s most important command. After you make any sort of change, you input this in order to take a “snapshot” of the repository. </em> </div>
+		<p> <strong>OR</strong></p>
+		<p> <strong>$ git commit </strong>// <strong>i </strong><em>// to insert comments</em> and <strong>esc +wq: </strong><em> // to go back to command line</em></p>
+	</li>
+	<li>
+		<p> <strong>$ write some code in your /<"file"/></strong></p>
+		<div> <em>// (master) making some changes to your code</em> </div>
+	</li>
+	<li>
+		<p> <strong>$ git status></strong></p>
+		<div> <em>// (master) you'll notice that your /<"file"/> has been modified (red) </em> </div>
+	</li>
+	<li>
+		<p> <strong>$ git add .></strong></p>
+		<div> <em>// (master) add all the changes you've made</em> </div>
+	</li>
+	<li>
+		<p> <strong>$ git commit -m "changed the /<"file"/>"></strong></p>
+		<div> <em>// (master) commit the changes and comment your changes in the message</em> </div>
+	</li>
+	<li>
+		<p> <strong>$ touch .gitignore></strong></p>
+		<div> <em>// (master) create a .gitignore file // put down all the files you don't want e.g. log.txt, */html, /dir1 and SAVE> </em> </div>
+	</li>
+	<li>
+		<p> <strong>$ git add . <strong></p>
+		<div> <em>// (master) add all the files (.gitignore will exclude all the unwanted files)</em> </div>
+	</li>
+<h2>CHANGING BRANCHES</h2>
+		<li>
+		<p> <strong>$ git branch login <strong></p>
+		<div> <em>// (login) create a branch called "login", you can make changes but it won't be committed to the main branch (master). Working with multiple collaborators and want to make changes on your own? This command will let you build a new branch, or timeline of commits, of changes and file additions that are completely your own. Your title goes after the command.</em> </div>
+	</li>
+	<li>
+		<p> <strong>$ git checkout login <strong></p>
+		<div> <em>// (login) switching to "login" branch.  Literally allows you to “check out” a repository that you are not currently inside. This is a navigational command that lets you move to the repository you want to check. // create some new files e.g. touch login.html</em> </div>
+	</li>
+		<p class="tips"> <strong>$ git checkout -b login <strong></p>
+		<div> <em>// this is a shortcut: you create a branch (-b) and switch straight into it</em> </div>
+	<li>
+		<p> <strong>$ git add . <strong></p>
+		<div> <em>// (login) add the new files</em> </div>
+	</li>
+	<li>
+	<p> <strong>$ git commit -m "login form" <strong></p>
+		<div> <em>// (login) commit the new files</em> </div>
+	</li>
+<h2>MERGING BRANCHES</h2>
+	<li>
+	<p> <strong>$ git checkout master <strong></p>
+		<div> <em>// (master) if you go to your folder you'll notice that login.html has disappeared and also anything that you've edited in the login branch has gone</em> </div>
+	</li>	
+	<li>
+	<p> <strong>$ git merge login <strong></p>
+		<div> <em>// merging the changed files from login to master. When you’re done working on a branch, you can merge your changes back to the master branch, which is visible to all collaborators.  // you will be taken to the "editor" where you'll explain why the merge is necessary</em> </div></strong>// <strong>i </strong><em>// to insert comments</em> and <strong>esc +wq: </strong><em> // to go back to command line</em></p>
+	</li>
+
+<h2>DELETING LOCAL BRANCHES</h2>
+<p>To delete the local GIT branch we can try one of the following commands</p>
+<ul>
+	<li>
+	 The -d option stands for --delete, which would delete the local branch, only if you have already pushed and merged it with your remote branches.
+		<code>git branch <strong>-d</strong> branch_name</code>
+	</li>
+	<li>
+	 The -D option stands for --delete --force, which deletes the branch regardless of its push and merge status, so be careful using this one!
+		<code>git branch <strong>-D</strong> branch_name</code>
+	</li>
+</ul>
+
+<h2>DELETING REMOTE BRANCHES</h2>
+<p>To delete a remote branch you can use the following command:</p>
+<ul>
+	<li>
+		<code>git push &ltremote_name&gt --delete &ltbranch_name&gt </code>
+	</li>
+</ul>
+
+<h2>*Push to remote branch and delete*</h2>
+<p>If you ever want to push your local branch to remote and delete your local, you can use <strong>git push</strong> with the <strong>-d</strong> option as an alias for <strong>--delete</strong>.</p>
+<ul>
+	<li>
+		<pre><code>git push &ltremote_name&gt --delete &ltbranch_name&gt </code></pre>
+	</li>
+</ul>
+<h2>WORKING WITH THE REMOTE REPOSITORY</h2>
+	<li>
+	<p> <strong>look at all your remote repositories <strong></p>
+		<pre><code>git remote -v</code></pre>
+	</li>
+	<li>
+	<p> <strong>create a repository on Github <strong></p>
+	</li>	
+	<li>
+	<p> <strong>$ git remote <strong></p>
+		<div> <em>// (master) this will list the remote repositories</em> </div>
+	</li>
+	<li>
+	<p> <strong>$ git remote add origin "</u.r.l/>"<strong></p>
+		<div> <em>// (master) add the origin url to the repository</em> </div>
+	</li>
+	<li>
+	<p> <strong>$ git push -u origin master<strong></p>
+		<div> <em>// (master) the -u creates an upstream tracking connection and is especially useful when publishing a local branch on a remote for the first time.</em> </div>
+	</li>	
+</ol>
+
+<hr><h2>EXCEPTIONS</h2>
+<code class="warning"> git stash save "comment"</code>
+<p>This allows us to save any changes made to the code, in a form which actually isn't part of the repo. </p>
+
+<h2>SAVING YOUR CHANGES TO THE SIDE OF GIT (GIT STASH)</h2>
+	<pre><code>git stash save "make_notes_about_changes"</code></pre>
+
+<h2>BASIC COMMANDS</h2>
+<ul>
+	<li><strong>$ git init</strong> <em>//Initializes a new Git repository. Until you run this command inside a repository or directory, it’s just a regular folder. Only after you input this does it accept further Git commands.</em></li>
+	<li><strong>$ git add /<"file"/> </strong> <em>//Add File(s) To Index</em></li>	
+	<li><strong>$ git status  </strong> <em>//Check Status Of Working Tree</em></li>
+	<li><strong>$ git commit  </strong> <em>//Commit Changes To Index</em></li>
+	<li><strong>$ git push  </strong> <em>//Push To Remote Repository. If you’re working on your local computer, and want your commits to be visible online on GitHub as well, you “push” the changes up to GitHub with this command.</em></li>
+	<li><strong>$ git pull  </strong> <em>//Pull Latest From Remote Repository.  If you’re working on your local computer and want the most up-to-date version of your repository to work with, you “pull” the changes down from GitHub with this command.</em></li>
+	<li><strong>$ git clone  </strong> <em>//Clone Repository Into A New Directory</em></li>
+	<li><strong>$ git rm --cached /<"file"/><file> </strong> <em>//Remove File From The Staging Area (after doing git add /<"file"/>)</em></li>
+	<li><strong>$ git add *.html <file> </strong> <em>//Adds Any File That Has The HTML Status</em></li>
+	<li><strong>$ git add . </strong> <em>//Adds All files</em></li>
+	<li><strong>$ git branch Login </strong> <em>//Creates a branch called "Login"</em></li>
+	<li><strong>$ git checkout Login </strong> <em>//this will switch to the "Login" branch</em></li>	
+	<li><strong>$ git merge Login </strong> <em>//this will merge the login branch to the master branch</em></li>
+	<li><strong>$ git merge Login </strong> <em>//this will merge the login branch to the master branch</em></li>
+	<li><strong>$ git push -u origin master </strong> <em>//f you are publishing a local branch for the first time on a remote, the "-u" option is helpful. It makes sure that a tracking connection between the local and the newly created remote branch is established</em></li>
+	<li><strong>$ git remote -v </strong> <em>//lists the current remote urls</em></li>
+	<li><strong>$ git merge master </strong> <em>//merging the master branch into another one e.g.feature</em></li>
+	<li><strong>$ git rebase master </strong> <em>//this moves the entire "feature" branch to begin on the tip of the master branch. N.B. never use git on public branches</em></li>
+	<li><strong>$ git diff </strong> <em>//Show changes between commits, commit and working tree, etc</em></li>
+	<li><strong>$ git branch </strong> <em>//Show which branch you are on</em></li>
+	<li><strong>Merging vs Rebasing </strong> <em ><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">//Click here to learn how to use both</a></em></li>
+	<li><strong>git log </strong> <em >//displays all commit messages in the repo</em></li>
+	<li><strong>git show </strong> <em >//shows all the different files in a commit</em></li>
+	<li><strong>git merge "branch_name" </strong> <em >//merges the branch_name with the master branch // make sure you you are in the master branch</em></li>
+
+</ul>
+
+<h2>OPTIONS</h2>
+	<li><strong>--all </strong> <em>//Pushes all local branches.</em></li>
+	<li><strong>--tags </strong> <em>//Pushes all local tags.</em></li>	
+	<li><strong>--delete </strong> <em>//Deletes the specified remote branch.</em></li>
+	<li><strong>-u</strong> <em>//This flag creates an upstream tracking connection and is especially useful when publishing a local branch on a remote for the first time.</em></li>
+	<li><strong>--track</strong> <em>//This creates a new local branch with the same name as the remote one - and directly establishes a tracking connection between the two.</em></li>
+	<li><strong>-f</strong> <em>//this flag forces an update</em></li>
+	<li><strong>-i</strong> <em>//this flag makes it interactive</em></li>
+	<li><strong>r</strong> <em>//recursive (it's a function that calls itself i.e. a snake swallowing its tail)</em></li>
+
+
+
+<h2>PROBLEMS</h2>
+
+<ul>
+	<h3>Switching remote URLS</h3>
+	<li><strong>$ git remote set-url origin (url) </strong> <em>//this will change the remote url</em></li>
+</ul>
+
+<p> <strong>dir /a</strong> </p>
+<div> <em>shows all files in the directory</em> </div>
+
+<p> <strong>git checkout click_detection</strong> </p>
+<div> <em>creates a branch called click_detection</em> </div>
+<p> <strong>git diff</strong></p>
+<div> <em>shows between branches or different commits</em> </div>
+<p> <strong>pull request</strong></p>
+<div> <em>is a feature of github, it is requesting to do a pull to merge into the master</em> </div>
+
+<p> <strong>What is version control?</strong></p>
+<div> <em>basically giving different versions of a project and cotrolling it. </em> </div>
+
+<p></p>
+
+
+<h2>Using Git on the Windows terminal</h2>
+
+<p>To log in to your GitHub account you must have an SSH key, here are the steps that will allow you to create it and send it to GitHub</p>
+<ol>
+	<li>
+		Generating a new SSH key
+	</li>
+	<li>
+		Open Terminal / cmdr
+	</li>
+	<li>
+		Paste the text below, substituting for your GitHub email address.
+		<pre><code>ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</code></pre>
+	</li>
+</ol>
+<p>This is a new key, using the email as a label.</p>
+
+<ol>
+	<li>
+		Generating public / private rsa key pair. When you're prompted to "Enter a file in which to save the key," press Enter. This accepts the default file location.
+	</li>
+	<li>
+		Enter a file in which to save the key (/Users/UserName/.ssh/id_rsa): [Press enter]
+	</li>
+	<li>
+		Enter passphrase (empty for no passphrase): [Type a passphrase]
+	</li>
+	<li>
+		Enter same passphrase again: [Type passphrase again]
+	</li>
+	<li>
+		cat ~ / .ssh / id_rsa.pub
+	</li>
+	<li>
+		copy the ssh key (starts with ssh-rsa ......)
+	</li>
+	<li>
+		Follow this tutorial <a href="https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account" target="_blank">from point 2</a>
+	</li>
+</ol>
+</body>
+</html>

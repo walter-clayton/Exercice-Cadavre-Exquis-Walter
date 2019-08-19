@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="D:\Users\Student\Desktop\softDev\notes\NOTES.css">
+	<style type="text/css">
+		img {
+			  margin: auto;
+			  display: block;
+			  width: 80%;
+			  max-width: 700px;
+		}
+	</style>
+	<title>Git Remotes</title>
+</head>
+<body>
+
+<p>Remote repositories aren't actually that complicated. In today's world of cloud computing it's easy to think that there's a lot of magic behind git remotes, but they are actually just copies of your repository on another computer. You can typically talk to this other computer through the Internet, which allows you to transfer commits back and forth.</p>
+
+<p>
+	That being said, remote repositories have a bunch of great properties:
+
+	<ul>
+		<li>
+			First and foremost, remotes serve as a great backup! Local git repositories have the ability to restore files to a previous state (as you know), but all that information is stored locally. By having copies of your git repository on other computers, you can lose all your local data and still pick up where you left off.
+		</li>
+		<li>
+			More importantly, remotes make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.
+		</li>
+	</ul>
+</p>
+<p>
+	It's become very popular to use websites that visualize activity around remote repos (like Github or Phabricator), but remote repositories always serve as the underlying backbone for these tools. So it's important to understand them!
+</p>
+
+<hr>
+
+<h3>Our Command to create remotes</h3>
+
+<p>
+	Up until this point, Learn Git Branching has focused on teaching the basics of local repository work (branching, merging, rebasing, etc). However now that we want to learn about remote repository work, we need a command to set up the environment for those lessons. <span class="code">git clone</span> will be that command
+</p>
+
+<p>
+	Technically, <span class="code">git clone</span> in the real world is the command you'll use to create local copies of remote repositories (from github for example). We use this command a bit differently in Learn Git Branching though -- <span class="code">git clone</span> actually makes a remote repository out of your local one. Sure it's technically the opposite meaning of the real command, but it helps build the connection between cloning and remote repository work, so let's just run with it for now.
+</p>
+<p>
+	<img src="git_clone.PNG">
+	<img src="git_clone2.PNG">
+</p>
+
+<hr>
+<p>
+	Now that you've seen <span class="code">git clone</span> in action, let's dive into what actually changed.
+</p>
+
+<p>
+	The first thing you may have noticed is that a new branch appeared in our local repository called <span class="code">o/master</span>. This type of branch is called a remote branch; remote branches have special properties because they serve a unique purpose.
+</p>
+
+<p>
+	Remote branches reflect the state of remote repositories (since you last talked to those remote repositories). They help you understand the difference between your local work and what work is public -- a critical step to take before sharing your work with others.
+</p>
+
+<p>
+	Remote branches have the <strong>special property</strong> that when you check them out, you are put into detached <span class="code">HEAD</span> mode. Git does this on purpose because you can't work on these branches directly; you have to work elsewhere and then share your work with the remote (after which your remote branches will be updated).
+</p>
+
+<hr>
+<h3>
+What is <span class="code">o/?</span></h3>
+
+<p>
+	You may be wondering what the leading <span class="code">o/</span> is for on these remote branches. Well, remote branches also have a (required) naming convention -- they are displayed in the format of:
+	<ul>
+		<li>
+			<pre><code>
+				&ltremote name&gt/&ltbranch name&gt
+			</code></pre>
+		</li>
+	</ul>
+</p>
+<p>
+	Hence, if you look at a branch named <span class="code">o/master</span>, the branch name is <span class="code">master</span> and the name of the remote is <span class="code">o</span>.
+</p>
+<p>
+	Most developers actually name their main remote <span class="code">origin</span>, not <span class="code">o</span>. This is so common that git actually sets up your remote to be named <span class="code">origin</span> when you <span class="code">git clone</span> a repository.
+</p>
+
+<p>
+	Unfortunately the full name of origin does not fit in our UI, so we use o as shorthand :( Just remember when you're using real git, your remote is probably going to be named <span class="code">origin</span>!
+</p>
+<p>
+	<img src="remote_branch_checkout&commit.PNG">
+	<img src="remote_branch_checkout&commit2.PNG">
+</p>
+
+<hr>
+<h3>
+	Git Fetch
+</h3>
+
+<p>
+	Working with git remotes really just boils down to transferring data to and from other repositories. As long as we can send commits back and forth, we can share any type of update that is tracked by git (and thus share work, new files, new ideas, love letters, etc.).
+</p>
+<p>
+	In this lesson we will learn how to fetch data from a remote repository -- the command for this is conveniently named <span class="code">git fetch</span>.
+</p>
+<p>
+	You'll notice that as we update our representation of the remote repository, our remote branches will update to reflect that new representation. This ties into the previous lesson on remote branches
+</p>
+	<img src="git_fetch.PNG">
+	<img src="git_fetch2.PNG">
+<h4>
+What fetch does</h4>
+<p>
+	<span class="code">git fetch</span> performs two main steps, and two main steps only. It:
+	<ul>
+		<li>
+			downloads the commits that the remote has but are missing from our local repository, and...
+		</li>
+		<li>
+			updates where our remote branches point (for instance, <span class="code">o/master</span>)
+		</li>
+	</ul>
+</p>
+<p>
+	<span class="code">git fetch</span> essentially brings our local representation of the remote repository into synchronization with what the actual remote repository looks like (right now).
+</p>
+
+<p>
+	If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories since you last talked to those remotes. <span class="code">git fetch</span> is the way you talk to these remotes! Hopefully the connection between remote branches and <span class="code">git fetch</span> is apparent now.
+</p>
+<p>
+	git fetch usually talks to the remote repository through the Internet (via a protocol like <span class="code">http://</span> or <span class="code">git://</span>).
+</p>
+<h4>
+What fetch doesn't do</h4>
+<p>
+	<span class="code">git fetch</span>, however, does not change anything about your local state. It will not update your <span class="code">master</span> branch or change anything about how your file system looks right now.
+</p>
+<p>
+	This is important to understand because a lot of developers think that running <span class="code">git fetch</span> will make their local work reflect the state of the remote. It may download all the necessary data to do that, but it does not actually change any of your local files. We will learn commands in later lessons to do just that :D
+</p>
+
+<p>
+	So at the end of the day, you can think of running <span class="code">git fetch</span> as a download step.
+</p>
+
+
+<hr>
+
+<h3>Git Pull</h3>
+
+
+<img src="git_pull.PNG">
+<img src="git_pull2.PNG">
+<img src="git_pull3.PNG">
+<img src="git_pull4.PNG">
+
+<hr>
+
+<h3>Git Pull from a Team</h3>
+
+<img src="git_pull_team.PNG">
+<img src="git_pull_team2.PNG">
+
+<h4>EXERCISE</h4>
+<p>
+<img src="git_pull_team_exercise.PNG">
+</p>
+
+<pre><code>
+	git fakeTeamwork 2
+	git commit
+	git pull
+</code></pre>
+
+<hr>
+
+<h3>Git Push</h3>
+<p><span class="code">git push</span> is responsible for uploading your changes to a specified remote and updating that remote to incorporate your new commits. Once <span class="code">git push</span> completes, all your friends can then download your work from the remote.</p>
+
+<p>the behavior of <span class="code">git push</span> with no arguments varies depending on one of git's settings called <span class="code">push.default</span>. The default value for this setting depends on the version of git you're using, but we are going to use the <span class="code">upstream</span> value in our lessons. This isn't a huge deal, but it's worth checking your settings before pushing in your own projects.</p>
+
+<p>
+	Imagine you clone a repository on Monday and start dabbling on a side feature. By Friday you are ready to publish your feature -- but oh no! Your coworkers have written a bunch of code during the week that's made your feature out of date (and obsolete). They've also published these commits to the shared remote repository, so now your work is based on an old version of the project that's no longer relevant.
+</p>
+
+<p>
+	In this case, the command git push is ambiguous. If you run <span class="code">git push</span>, should git change the remote repository back to what it was on Monday? Should it try to add your code in while not removing the new code? Or should it totally ignore your changes since they are totally out of date?
+</p>
+<p>
+	Because there is so much ambiguity in this situation (where history has diverged), git doesn't allow you to <span class="code">push</span> your changes. It actually forces you to incorporate the latest state of the remote before being able to share your work.
+</p>
+<p>
+	<img src="git_push3.PNG">
+	<img src="git_push4.PNG">
+</p>
+
+<h3>REBASING ad PUSH</h3>
+
+	<img src="rebase&push.PNG">
+
+<hr>
+
+<h3>MERGING</h3>
+
+<img src="git_merge.PNG">
+<img src="git_merge2.PNG">
+
+<p class="warning">you already know <span class="code">git pull</span> is just shorthand for a fetch and a merge.</p>
+<p class="warning">Conveniently enough, git pull <span class="code">--rebase</span> is shorthand for a fetch and a rebase!</p>
+
+<p>
+	<img src="git_pull_rebase.PNG">
+	<img src="git_pull_rebase2.PNG">
+</p>
+
+<p>
+	<img src="exercise_remote_teamwork.PNG">
+</p>
+
+<pre><code>
+	git fakeTeamwork
+	git commit
+	git pull --rebase
+	git push
+</code></pre>
+
+
+</body>
+</html>
