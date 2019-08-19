@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="D:\Users\Student\Desktop\softDev\notes\NOTES.css">
+	<style type="text/css">
+		img {
+			  margin: auto;
+			  display: block;
+			  width: 80%;
+			  max-width: 700px;
+		}
+	</style>
+	<title>Moving around in Git</title>
+</head>
+<body>
+<p>Before we get to some of the more advanced features of Git, it's important to understand different ways to move through the commit tree that represents your project.</p>
+<div>Once you're comfortable moving around, your powers with other git commands will be amplified!</div>
+<hr>
+<h3>HEAD</h3>
+<p>First we have to talk about "HEAD". HEAD is the symbolic name for the currently checked out commit -- it's essentially what commit you're working on top of.</p>
+
+<p>HEAD always points to the most recent commit which is reflected in the working tree. Most git commands which make changes to the working tree will start by changing HEAD.</p>
+
+<p>Normally HEAD points to a branch name (like bugFix). When you commit, the status of bugFix is altered and this change is visible through HEAD.</p>
+
+	<h2>Relative Refs(^)</h2>
+
+	<p>You can also reference <span class="code">HEAD </span>as a relative ref. Let's use that a couple of times to move upwards in the commit tree</p>
+
+<p>Easy! We can travel backwards in time with <span class="code">HEAD^</span></p>
+
+<p><span class="code">HEAD </span>before commit</p>
+<img src="./head_before_and_after_commit.PNG">
+<p><span class="code">HEAD </span>after commit</p>
+<img src="./head_before_and_after_commit2.PNG">
+
+<p><strong>Detaching</strong> <span class="code">HEAD</span></p>
+<img src="detaching_head.PNG" alt="detaching head">
+<p><strong>Detaching</strong> <span class="code">HEAD</span></p>
+<img src="detaching_head2.PNG" alt="detaching head 2">
+
+<hr>
+<p>Moving around in Git by specifying commit hashes can get a bit tedious. In the real world you won't have a nice commit tree visualization next to your terminal, so you'll have to use <span class="code">git log</span> to see hashes.</p>
+
+<p>
+	Furthermore, hashes are usually a lot longer in the real Git world as well. For instance, the hash of the commit that introduced the previous level is <span class="code">fed2da64c0efc5293610bdd892f82a58e8cbc5d8</span>. Doesn't exactly roll off the tongue...
+</p>
+<p>
+	The upside is that Git is smart about hashes. It only requires you to specify enough characters of the hash until it uniquely identifies the commit. So I can type <span class="code">fed2</span> instead of the long string above.
+</p>
+<p>
+	Like I said, specifying commits by their hash isn't the most convenient thing ever, which is why Git has relative refs. They are awesome!
+</p>
+<p>
+	With relative refs, you can start somewhere memorable (like the branch <span class="code">bugFix</span> or <span class="code">HEAD</span>) and work from there.
+</p>
+<p>
+	Relative commits are powerful, but we will introduce two simple ones here:
+</p>
+<ul>
+	<li>
+		Moving upwards one commit at a time with <span class="code">^</span>
+	</li>
+	<li>
+		Moving upwards a number of times with <span class="code">~&ltnum&gt</span>
+	</li>
+</ul>
+
+<p>Let's look at the Caret (<span class="code">^</span>) operator first. Each time you append that to a ref name, you are telling Git to find the parent of the specified commit.</p>
+<img src="moving_commits_with_relativeRefs1(^).PNG" id="img" alt="moving commit C1 to C2 on master branch">
+<img src="moving_commits_with_relativeRefs2(^).PNG" alt="moving commit C1 to C2 on master branch">
+
+<p>
+	You can also reference <span class="code">HEAD</span> as a relative ref. Let's use that a couple of times to move upwards in the commit tree
+</p>
+<img src="moving_heads_with_relativeRefs(^)1.PNG" alt="moving head C3 to C0 on master branch">
+
+<img src="moving_heads_with_relativeRefs(^)2.PNG" alt="moving head C3 to C0 on master branch">
+
+<hr>
+
+<h3>The "~" operator</h3>
+
+<p>Say you want to move a lot of levels up in the commit tree. It might be tedious to type ^ several times, so Git also has the tilde (~) operator.</p>
+
+<p>The tilde operator (optionally) takes in a trailing number that specifies the number of parents you would like to ascend. Let's see it in action</p>
+<img src="moving_commits_with_tilde1(~).PNG">
+<img src="moving_commits_with_tilde2(~).PNG">
+
+<hr>
+<h3>Branch forcing</h3>
+
+<p>You're an expert on relative refs now, so let's actually use them for something.</p>
+
+<p>One of the most common ways I use relative refs is to move branches around. You can directly reassign a branch to a commit with the <span class="code">-f</span> option. So something like:</p>
+
+<pre><code>git branch -f master HEAD~3</code></pre>
+
+<p>moves (by force) the master branch to three parents behind HEAD.</p>
+
+<img src="forceMoving_commits_with_tilde1(~).PNG">
+<img src="forceMoving_commits_with_tilde2(~).PNG">
+
+<hr>
+
+<h3>Reversing Changes in Git</h3>
+
+<p>There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.</p>
+
+<p>There are two primary ways to undo changes in Git -- one is using <span class="code">git reset</span> and the other is using <span class="code">git revert</span>. We will look at each of these in the next dialog</p>
+
+<h4>Git Reset</h4>
+
+<img src="git_reset1.PNG">
+<img src="git_reset2.PNG">
+
+<h4>Git Revert</h4>
+
+<img src="git_revert1.PNG">
+<img src="git_revert2.PNG">
+
+
+<hr>
+
+<h3>Git Cherry-pick</h3>
+
+<p>The first command in this series is called  <span class="code">git cherry-pick</span>. It takes on the following form:</p>
+
+<pre><code>git cherry-pick &ltCommit1&gt &ltCommit2&gt &lt...&gt</code></pre>
+
+<p>It's a very straightforward way of saying that you would like to copy a series of commits below your current location (<span class="code">HEAD</span>). I personally love <span class="code">cherry-pick</span> because there is very little magic involved and it's easy to understand.</p>
+
+<img src="cherry-pick1.PNG">
+<img src="cherry-pick2.PNG">
+
+
+<hr>
+
+<h3>Git Interactive Rebase</h3>
+
+<p>Git cherry-pick is great when you know which commits you want (and you know their corresponding hashes) -- it's hard to beat the simplicity it provides.</p>
+<p>
+	But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.
+</p>
+<p>
+	All interactive rebase means is using the <span class="code">rebase</span> command with the <span class="code">-i</span> option.
+</p>
+<p>
+	If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what's what.
+</p>
+
+<p>
+	For "real" git, the UI window means opening up a file in a text editor like <span class="code">vim</span>. For our purposes, I've built a small dialog window that behaves the same way.
+</p>
+<p>
+	When the interactive rebase dialog opens, you have the ability to do 3 things:
+	<ul>
+		<li>
+			You can reorder commits simply by changing their order in the UI (in our window this means dragging and dropping with the mouse).
+		</li>
+		<li>
+			You can choose to completely omit some commits. This is designated by <span class="code">pick</span> -- toggling <span class="code">pick</span> off means you want to drop the commit.
+		</li>
+	</ul>
+</p>
+
+<img src="git_interactive_rebase1.PNG">
+<img src="git_interactive_rebase2.PNG">
+<img src="git_interactive_rebase3.PNG">
+<img src="git_interactive_rebase4.PNG">
+
+<hr>
+<h3>Locally stacked commits</h3>
+<p>
+	Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.
+</p>
+<p>
+	All of these debugging / print statements are in their own commits. Finally I track down the bug, fix it, and rejoice!
+</p>
+<p>
+	Only problem is that I now need to get my <span class="code">bugFix</span> back into the <span class="code">master</span> branch. If I simply fast-forwarded <span class="code">master</span>, then <span class="code">master</span> would get all my debug statements which is undesirable. There has to be another way...
+</p>
+
+
+<hr>
+
+<h3>Juggling Commits</h3>
+
+<p>Here's another situation that happens quite commonly. You have some changes (<span class="code">newImage</span>) and another set of changes (<span class="code">caption</span>) that are related, so they are stacked on top of each other in your repository (aka one after another).</p>
+
+<p>The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of <span class="code">newImage</span> slightly, even though that commit is way back in our history!!</p>
+
+<p>
+We will overcome this difficulty by doing the following:
+</p>
+
+
+<ul>
+	<li>
+		We will re-order the commits so the one we want to change is on top with <span class="code">git rebase -i</span>
+	</li>
+	<li>
+		We will <span class="code">commit --amend</span> to make the slight modification
+	</li>
+	<li>
+		Finally, we will move master to this updated part of the tree to finish the level (via the method of your choosing)
+	</li>
+</ul>
+
+<p>
+	There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique. Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree
+</p>
+<p>
+	That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's <span class="code">master</span> branch has the same structure and relative apostrophe differences, I'll give full credit
+</p>
+
+<p>EXERCISE</p>
+<div>
+<img src="juggling_commits_exercise1.PNG">
+<img src="juggling_commits_exercise_solution.PNG">
+</div>
+<hr>
+<h3>Juggling Commits #2</h3>
+
+
+
+<p>As you saw in the last level, we used <span class="code">rebase -i</span> to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order</p>
+
+<p>The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with git <span class="code">cherry-pick</span>
+</p>
+
+
+<p>
+So in this level, let's accomplish the same objective of amending C2 once but avoid using rebase -i. I'll leave it up to you to figure it out! :D
+</p>
+
+
+<p>
+	So in this level, let's accomplish the same objective of amending C2 once but avoid using <span class="code">rebase -i</span>. I'll leave it up to you to figure it out! :D
+
+	Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere
+</p>
+<div>
+<img src="juggling_commits_exercise2.PNG">
+<img src="juggling_commits_exercise_solution2.PNG">
+</div>
+
+
+<hr>
+<h3>Git Tags</h3>
+<p>As you have learned from previous lessons, branches are easy to move around and often refer to different commits as work is completed on them. Branches are easily mutated, often temporary, and always changing.</p>
+
+<p>If that's the case, you may be wondering if there's a way to permanently <strong>mark historical points</strong> in your project's history. For things like major releases and big merges, is there any way to <strong>mark these commits</strong> with something more permanent than a branch?</p>
+
+
+<p>You bet there is! <strong>Git tags </strong>support this exact use case -- they (somewhat) permanently mark certain commits as "milestones" that you can then reference like a branch.</p>
+
+<p>More importantly though, they <strong>never move</strong> as more commits are created. You can't "check out" a tag and then complete work on that tag -- tags exist as <strong>anchors</strong> in the commit tree that designate certain spots.</p>
+
+<p>
+<img src="git_tags1.PNG">
+<img src="git_tags2.PNG">
+</p>
+<p>or this level just create the tags in the goal visualization and then check <span class="code">v1</span> out. Notice how you go into detached <span class="code">HEAD</span> state -- this is because you can't commit directly onto the <span class="code">v1</span> tag.</p>
+<p>
+<img src="git_tags_exercise.PNG">
+</p>
+
+<pre><code>
+	git tag V0 C1
+	git tag V1 C2
+	git checkout C2
+</code></pre>
+
+<p class="warning">OR</p>
+
+
+<pre><code>
+	git tag v1 side~1
+	git tag v0 master~2
+	git checkout v1
+</code></pre>
+
+<hr>
+
+<h3>Git Describe</h3>
+<p>
+	Because tags serve as such great "<strong>anchors</strong>" in the codebase, git has a command to describe where you are relative to the closest "<span class="code">anchor</span>" (aka tag). And that command is called git describe!
+</p>
+
+<p>
+	Git describe can help you get your bearings after you've moved many commits backwards or forwards in history; this can happen after you've completed a git bisect (a debugging search) or when sitting down at a coworkers computer who just got back from vacation.
+</p>
+<p>
+	Git describe takes the form of:Git describe takes the form of:
+</p>
+<pre><code>
+	git describe &ltref&gt
+</code></pre>
+
+<p>
+	Where <span class="code">&ltref&gt</span> is anything git can resolve into a commit. If you don't specify a ref, git just uses where you're checked out right now (<span class="code">HEAD</span>).
+</p>
+<p>
+	The output of the command looks like:
+</p>
+
+<pre><code>
+	&lttag&gt_&ltnumCommits&gt_g&lthash&gt
+</code></pre>
+
+<p>
+	Where <span class="code">tag</span> is the closest ancestor tag in history, <span class="code">numCommits</span> is how many commits away that tag is, and <span class="code">&lthash&gt</span> is the hash of the commit being described.
+</p>
+
+<p>
+	<img src="git_describe.PNG">
+	<img src="git_describe2.PNG">
+</p>
+
+
+
+<p>
+		<img src="git_describe2.PNG">
+
+</p>
+
+<p>EXERCISE</p>
+<p>
+	<img src="git_describe_exercise.PNG">
+</p>
+<pre><code>
+	git commit
+</code></pre>
+
+<hr>
+
+<h3>Rebasing Multiple Branches</h3>
+
+<p>
+	Man, we have a lot of branches going on here! <strong>Let's rebase all the work from these branches onto master.</strong>
+</p>
+<p>
+	Upper management is making this a bit trickier though -- <strong>they want the commits to all be in sequential order.</strong> So this means that our final tree should have C7' at the bottom, C6' above that, and so on, all in order.
+</p>
+
+<img src="rebasing_multiple_branches_exercise.PNG">
+
+<pre><code>
+	git rebase master bugFix
+	git rebase bugFix side
+	git rebase side another
+	git rebase another master
+</code></pre>
+
+
+
+
+<script type="text/javascript" src="moving_around_in-Git.js"></script>
+</body>
+</html>
